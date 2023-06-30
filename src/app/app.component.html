@@ -1,0 +1,18 @@
+<div id="root" class="full-height">
+  <mat-toolbar color="primary" class="mat-elevation-z4">
+    <button mat-icon-button (click)="sidenav.toggle()" class="d-inline d-sm-none">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h3><a mat-button routerLink="/">SkyeTools</a></h3>
+  </mat-toolbar>
+  <mat-sidenav-container>
+    <mat-sidenav [opened]="sidenavOpened" [mode]="sidenavMode" class="mat-elevation-z4" #sidenav>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/downloader" routerLinkActive="activated">SkyeDownloader</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,12 @@
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-sidenav-container {
+  flex-grow: 1;
+}
+
+mat-sidenav {
+  width: 200px;
+}

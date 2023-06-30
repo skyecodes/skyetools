@@ -1,0 +1,56 @@
+<div class="container h-100 d-flex flex-column align-items-center justify-content-center px-2">
+  <h2 class="mat-headline-2">SkyeDownloader</h2>
+  <h5 class="mat-headline-5">Download media from Twitter, Youtube, Reddit and many other websites</h5>
+  <form [formGroup]="form" class="col-8 d-flex flex-column gap-2">
+    <mat-form-field class="w-100" color="accent" hideRequiredMarker>
+      <mat-label>URL</mat-label>
+      <input matInput formControlName="url" (keyup.enter)="download()" [errorStateMatcher]="matcher">
+      <mat-error *ngIf="form.controls.url.hasError('pattern') && !form.controls.url.hasError('required')">
+        Not a valid URL
+      </mat-error>
+      <mat-error *ngIf="form.controls.url.hasError('required')">
+        You must enter an URL
+      </mat-error>
+    </mat-form-field>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Advanced options
+        </mat-panel-title>
+        <mat-panel-description>{{getAdvancedOptionsText()}}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <div>
+          <mat-radio-group formControlName="type">
+            <mat-radio-button *ngFor="let item of typeValues | keyvalue" value="{{item.key}}">{{item.value}}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div>
+          <mat-radio-group formControlName="quality">
+            <mat-radio-button *ngFor="let item of qualityValues | keyvalue" value="{{item.key}}">{{item.value}}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="align-items-center">
+          <mat-radio-group formControlName="size">
+            <mat-radio-button *ngFor="let item of sizeValues | keyvalue" value="{{item.key}}">{{item.value}}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div>
+          <mat-checkbox formControlName="preferFreeFormats">Prefer free formats</mat-checkbox>
+        </div>
+        <div>
+          <button mat-stroked-button type="button" class="mt-2" (click)="resetOptions()">Reset options</button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+    <div class="d-flex flex-row align-items-center justify-content-center gap-2 mt-4">
+      <div class="spinner-filler"></div>
+      <button mat-fab extended type="submit" color="accent" (click)="download()" [disabled]="downloading">
+        <mat-icon>download</mat-icon>
+        DOWNLOAD
+      </button>
+      <mat-spinner diameter="32" *ngIf="downloading"></mat-spinner>
+      <div class="spinner-filler" *ngIf="!downloading"></div>
+    </div>
+  </form>
+</div>
