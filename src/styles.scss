@@ -22,3 +22,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-mdc-radio-button ~ .mat-mdc-radio-button {
   margin-left: 16px;
 }
+
+.content {
+  @extend #{".container", ".h-100", ".d-flex", ".flex-column", ".align-items-center", ".justify-content-center", ".px-2"}
+}

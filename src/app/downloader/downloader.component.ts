@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {DownloaderService} from './downloader.service';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ErrorStateMatcher} from "@angular/material/core";
+import {ProgressSpinnerMode} from "@angular/material/progress-spinner";
 
 const urlReg = 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)';
 
@@ -35,13 +36,13 @@ class CustomErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './downloader.component.html',
   styleUrls: ['./downloader.component.scss']
 })
-export class DownloaderComponent implements OnInit {
-  downloading: boolean = false;
+export class DownloaderComponent {
+  processing: boolean = false;
   form = new FormGroup(<DownloadForm>{
     url: new FormControl('', [Validators.required, Validators.pattern(urlReg)]),
-    type: new FormControl(defaultType, [Validators.required]),
-    quality: new FormControl(defaultQuality, [Validators.required]),
-    size: new FormControl(defaultSize, [Validators.required]),
+    type: new FormControl(defaultType),
+    quality: new FormControl(defaultQuality),
+    size: new FormControl(defaultSize),
     preferFreeFormats: new FormControl(defaultPreferFreeFormats)
   });
 
@@ -64,19 +65,45 @@ export class DownloaderComponent implements OnInit {
   }
 
   matcher = new CustomErrorStateMatcher();
+  progressMode: ProgressSpinnerMode = 'indeterminate';
+  progressValue: number = 0;
 
-  constructor(private service: DownloaderService, private snackBar: MatSnackBar) { }
-
-  ngOnInit() {
+  constructor(private service: DownloaderService, private snackBar: MatSnackBar) {
   }
 
-  download() {
+  process() {
     if (this.form.invalid) return;
-    this.downloading = true;
-    let download = this.service.download(this.form.value);
-    download.subscribe({
+    this.processing = true;
+    this.service.process(this.form.value).subscribe({
       next: response => {
-        this.downloading = false;
+        if (!response.fileId) {
+          this.progressMode = 'determinate';
+          this.progressValue = response.progress;
+        } else {
+          this.service.closeEventSource();
+          this.download(response.fileId);
+        }
+      },
+      error: err => {
+        if (typeof err.data === 'string') { // this is an error sent by the API
+          this.form.controls.url.setErrors({'invalid': true});
+          this.snackBar.open('Could not process URL.', 'CLOSE', {
+            panelClass: 'snackbar-error'
+          });
+        } else { // this is a communication error
+          this.snackBar.open('A communication error has occurred.', 'CLOSE', {
+            panelClass: 'snackbar-error'
+          });
+        }
+        this.service.closeEventSource();
+        this.resetProgress();
+      }
+    });
+  }
+
+  private download(fileId: string) {
+    this.service.download(fileId).subscribe({
+      next: response => {
         let downloadUrl = window.URL.createObjectURL(response.body!);
         let filename = response.headers.get('Content-Disposition')!.substring(22);
         filename = filename.substring(0, filename.length - 2);
@@ -84,12 +111,13 @@ export class DownloaderComponent implements OnInit {
         link.href = downloadUrl;
         link.download = filename;
         link.click();
+        this.resetProgress();
       },
-      error: () => {
-        this.downloading = false;
-        this.snackBar.open('Could not download from URL', 'CLOSE', {
+      error: err => {
+        this.snackBar.open('An error occurred while downloading the file.', 'CLOSE', {
           panelClass: 'snackbar-error'
         });
+        this.resetProgress();
       }
     });
   }
@@ -121,5 +149,20 @@ export class DownloaderComponent implements OnInit {
       size: defaultSize,
       preferFreeFormats: defaultPreferFreeFormats
     });
+  }
+
+  private resetProgress() {
+    this.processing = false;
+    this.progressMode = 'indeterminate';
+    this.progressValue = 0;
+    this.form.markAsPristine();
+  }
+
+  getProgressText() {
+    if (this.progressValue == 0) {
+      return 'Preparing...';
+    } else {
+      return 'Processing ' + this.progressValue.toFixed() + '%';
+    }
   }
 }

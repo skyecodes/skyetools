@@ -1,10 +1,9 @@
-import {
-  Component,
-  OnDestroy
-} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {MatDrawerMode} from "@angular/material/sidenav";
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {Subject, takeUntil} from "rxjs";
+import packageJson from '../../package.json';
+import {faGithub, faTwitter} from "@fortawesome/free-brands-svg-icons";
 
 const breakpoint = '(max-width: 576px)'
 
@@ -38,4 +37,8 @@ export class AppComponent implements OnDestroy {
     this.destroyed.next();
     this.destroyed.complete();
   }
+
+  protected readonly packageJson = packageJson;
+  protected readonly faTwitter = faTwitter;
+  protected readonly faGithub = faGithub;
 }
