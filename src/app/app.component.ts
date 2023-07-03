@@ -1,11 +1,9 @@
-import {Component, OnDestroy} from '@angular/core';
-import {MatDrawerMode} from "@angular/material/sidenav";
-import {BreakpointObserver} from '@angular/cdk/layout';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
+import {MatDrawerMode, MatSidenav} from "@angular/material/sidenav";
 import {Subject, takeUntil} from "rxjs";
 import packageJson from '../../package.json';
 import {faGithub, faTwitter} from "@fortawesome/free-brands-svg-icons";
-
-const breakpoint = '(max-width: 576px)'
+import {ResponsiveService} from "./responsive.service";
 
 @Component({
   selector: 'app-root',
@@ -16,19 +14,18 @@ export class AppComponent implements OnDestroy {
   destroyed = new Subject<void>();
   sidenavOpened!: boolean
   sidenavMode!: MatDrawerMode
-  constructor(private breakpointObserver: BreakpointObserver) {
-    this.breakpointObserver
-      .observe([breakpoint])
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
+  constructor(responsiveService: ResponsiveService) {
+    responsiveService.isSmall
       .pipe(takeUntil(this.destroyed))
-      .subscribe(result => {
-        for (const query of Object.keys(result.breakpoints)) {
-          if (query == breakpoint && result.breakpoints[query]) {
-            this.sidenavOpened = false
-            this.sidenavMode = 'over';
-          } else {
-            this.sidenavOpened = true
-            this.sidenavMode = 'side';
-          }
+      .subscribe(isSmall => {
+        if (isSmall) {
+          this.sidenavOpened = false
+          this.sidenavMode = 'over';
+        } else {
+          this.sidenavOpened = true
+          this.sidenavMode = 'side';
         }
       });
   }
@@ -41,4 +38,8 @@ export class AppComponent implements OnDestroy {
   protected readonly packageJson = packageJson;
   protected readonly faTwitter = faTwitter;
   protected readonly faGithub = faGithub;
+
+  closeIfSmall() {
+    if (this.sidenavMode == 'over') this.sidenav.close()
+  }
 }

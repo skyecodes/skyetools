@@ -1,8 +1,8 @@
-<div class="content">
+<div class="app-content">
   <div class="filler"></div>
   <span class="mat-headline-2">SkyeDownloader</span>
-  <span class="mat-headline-5">Download media from Twitter, Youtube, Reddit and many other websites.</span>
-  <form [formGroup]="form" class="col-8 d-flex flex-column" ngForm>
+  <span class="mat-headline-5 text-center">Download media from Twitter, Youtube, Reddit and many other websites.</span>
+  <form [formGroup]="form" class="col-12 col-md-8 d-flex flex-column" ngForm>
     <mat-form-field class="w-100" color="accent" hideRequiredMarker>
       <mat-label>URL</mat-label>
       <input matInput placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" formControlName="url"
@@ -31,16 +31,19 @@
             <mat-radio-button *ngFor="let item of typeValues | keyvalue" value="{{item.key}}">{{item.value}}</mat-radio-button>
           </mat-radio-group>
         </div>
+        <mat-divider class="d-md-inline"></mat-divider>
         <div>
           <mat-radio-group formControlName="quality">
             <mat-radio-button *ngFor="let item of qualityValues | keyvalue" value="{{item.key}}">{{item.value}}</mat-radio-button>
           </mat-radio-group>
         </div>
+        <mat-divider class="d-md-inline"></mat-divider>
         <div class="align-items-center">
           <mat-radio-group formControlName="size">
             <mat-radio-button *ngFor="let item of sizeValues | keyvalue" value="{{item.key}}">{{item.value}}</mat-radio-button>
           </mat-radio-group>
         </div>
+        <mat-divider class="d-md-inline"></mat-divider>
         <div>
           <mat-checkbox formControlName="preferFreeFormats">Prefer free formats</mat-checkbox>
         </div>

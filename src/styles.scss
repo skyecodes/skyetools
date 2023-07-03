@@ -19,10 +19,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --mdc-snackbar-container-color: #f44336 !important;
 }
 
-.mat-mdc-radio-button ~ .mat-mdc-radio-button {
-  margin-left: 16px;
+router-outlet + * {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.content {
-  @extend #{".container", ".h-100", ".d-flex", ".flex-column", ".align-items-center", ".justify-content-center", ".px-2"}
+.app-content {
+  @extend #{".container", ".flex-grow-1", ".d-flex", ".flex-column", ".align-items-center", ".justify-content-center", ".px-3", ".py-5"};
+  width: calc(100% - 2rem);
+}
+
+@media (max-width: 768px) {
+  .mat-headline-2 {
+    font-size: 40px;
+  }
+
+  .mat-headline-5 {
+    font-size: 16px;
+  }
 }
