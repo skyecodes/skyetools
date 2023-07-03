@@ -106,7 +106,7 @@ export class DownloaderComponent {
       next: response => {
         let downloadUrl = window.URL.createObjectURL(response.body!);
         let filename = response.headers.get('Content-Disposition')!.substring(22);
-        filename = filename.substring(0, filename.length - 2);
+        filename = filename.substring(0, filename.length - 1);
         let link = document.createElement('a');
         link.href = downloadUrl;
         link.download = filename;
