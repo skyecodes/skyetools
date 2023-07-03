@@ -161,6 +161,8 @@ export class DownloaderComponent {
   getProgressText() {
     if (this.progressValue == 0) {
       return 'Preparing...';
+    } else if (this.progressValue == 100) {
+      return 'Finalizing...';
     } else {
       return 'Processing ' + this.progressValue.toFixed() + '%';
     }
