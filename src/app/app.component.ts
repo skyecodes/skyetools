@@ -39,7 +39,7 @@ export class AppComponent implements OnDestroy {
   protected readonly faTwitter = faTwitter;
   protected readonly faGithub = faGithub;
 
-  closeIfSmall() {
+  closeSidenavIfSmall() {
     if (this.sidenavMode == 'over') this.sidenav.close()
   }
 }
