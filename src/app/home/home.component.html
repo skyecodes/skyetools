@@ -1,11 +1,11 @@
-<div class="content">
+<div class="app-content">
   <span class="mat-headline-2">SkyeTools</span>
   <span class="mat-headline-5">A collection of useful tools made by myself.</span>
   <mat-nav-list>
-    <mat-list-item routerLink="/downloader">
+    <mat-list-item routerLink="/downloader" [lines]="itemLines">
       <mat-icon matListItemIcon>download</mat-icon>
       <span matListItemTitle>SkyeDownloader</span>
-      <span matListItemLine>Download media from Twitter, Youtube, Reddit and many other websites.</span>
+      <span>Download media from Twitter, Youtube, Reddit and many other websites.</span>
     </mat-list-item>
   </mat-nav-list>
 </div>

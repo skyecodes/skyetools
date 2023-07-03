@@ -2,3 +2,19 @@
   flex-grow: 1;
   flex-basis: 0;
 }
+
+mat-divider {
+  margin: 10px 0 !important;
+}
+
+mat-radio-group {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 15px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0;
+  }
+}
