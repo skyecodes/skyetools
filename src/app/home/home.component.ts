@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ResponsiveService} from "../responsive.service";
+import {links} from "../constants";
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,7 @@ import {ResponsiveService} from "../responsive.service";
 })
 export class HomeComponent {
   itemLines!: number;
+  protected readonly links = links;
 
   constructor(responsiveService: ResponsiveService) {
     responsiveService.isSmall.subscribe(isSmall => {

@@ -19,10 +19,10 @@
   <mat-sidenav-container>
     <mat-sidenav [opened]="sidenavOpened" [mode]="sidenavMode" class="mat-elevation-z4" #sidenav>
       <mat-nav-list>
-        <mat-list-item routerLink="/downloader" routerLinkActive="link-active" class="pe-4"
+        <mat-list-item *ngFor="let link of links" [routerLink]="link.url" routerLinkActive="link-active" class="pe-4"
                        (click)="closeSidenavIfSmall()">
-          <mat-icon matListItemIcon>download</mat-icon>
-          <span>SkyeDownloader</span>
+          <mat-icon matListItemIcon>{{link.icon}}</mat-icon>
+          <span>{{link.name}}</span>
         </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>

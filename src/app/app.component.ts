@@ -4,6 +4,7 @@ import {Subject, takeUntil} from "rxjs";
 import packageJson from '../../package.json';
 import {faGithub, faTwitter} from "@fortawesome/free-brands-svg-icons";
 import {ResponsiveService} from "./responsive.service";
+import {links} from "./constants";
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ export class AppComponent implements OnDestroy {
   sidenavOpened!: boolean
   sidenavMode!: MatDrawerMode
   @ViewChild('sidenav') sidenav!: MatSidenav;
+  protected readonly links = links
 
   constructor(responsiveService: ResponsiveService) {
     responsiveService.isSmall

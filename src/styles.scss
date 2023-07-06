@@ -39,3 +39,9 @@ router-outlet + * {
     font-size: 20px;
   }
 }
+
+.big-icon {
+  font-size: 64px !important;
+  width: 64px !important;
+  height: 64px !important;
+}

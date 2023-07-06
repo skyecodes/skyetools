@@ -25,12 +25,16 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {TvComponent} from './tv/tv.component';
+import {ConverterComponent} from './converter/converter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    DownloaderComponent
+    DownloaderComponent,
+    TvComponent,
+    ConverterComponent
   ],
   imports: [
     BrowserModule,
