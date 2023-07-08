@@ -1,6 +1,6 @@
 <div class="app-content">
   <div class="filler"></div>
-  <span class="mat-headline-2 d-flex gap-2 align-items-center"><mat-icon class="big-icon">download</mat-icon>SkyeDownloader</span>
+  <span class="mat-headline-2 d-flex gap-2 align-items-center"><mat-icon class="icon-large">download</mat-icon>SkyeDownloader</span>
   <span class="mat-headline-5 text-center">Download media from Twitter, Youtube, Reddit and many other websites.</span>
   <form [formGroup]="form" class="col-12 col-md-8 d-flex flex-column" ngForm>
     <mat-form-field class="w-100" color="accent" hideRequiredMarker>
@@ -61,7 +61,7 @@
     </div>
   </form>
   <div class="filler">
-    <div *ngIf="processing" class="d-flex flex-row align-items-center gap-3 mt-4">
+    <div *ngIf="processing" class="d-flex flex-row align-items-center justify-content-center gap-3 mt-4">
       <mat-spinner color="accent" diameter="32" [mode]="progressMode" [value]="progressValue"></mat-spinner>
       {{getProgressText()}}
     </div>

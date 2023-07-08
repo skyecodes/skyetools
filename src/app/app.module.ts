@@ -27,6 +27,9 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {TvComponent} from './tv/tv.component';
 import {ConverterComponent} from './converter/converter.component';
+import {DropZoneDirective} from './common/drop-zone.directive';
+import {MatSelectModule} from "@angular/material/select";
+import {ProgressComponent} from './common/progress/progress.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,9 @@ import {ConverterComponent} from './converter/converter.component';
     HomeComponent,
     DownloaderComponent,
     TvComponent,
-    ConverterComponent
+    ConverterComponent,
+    DropZoneDirective,
+    ProgressComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +63,8 @@ import {ConverterComponent} from './converter/converter.component';
     MatRadioModule,
     MatSliderModule,
     MatProgressBarModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

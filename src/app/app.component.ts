@@ -3,8 +3,8 @@ import {MatDrawerMode, MatSidenav} from "@angular/material/sidenav";
 import {Subject, takeUntil} from "rxjs";
 import packageJson from '../../package.json';
 import {faGithub, faTwitter} from "@fortawesome/free-brands-svg-icons";
-import {ResponsiveService} from "./responsive.service";
-import {links} from "./constants";
+import {ResponsiveService} from "./common/responsive.service";
+import {links} from "./common/utils";
 
 @Component({
   selector: 'app-root',

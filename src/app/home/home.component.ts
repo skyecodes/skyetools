@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {ResponsiveService} from "../responsive.service";
-import {links} from "../constants";
+import {ResponsiveService} from "../common/responsive.service";
+import {links} from "../common/utils";
 
 @Component({
   selector: 'app-home',

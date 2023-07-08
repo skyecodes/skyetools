@@ -17,7 +17,7 @@ export class ResponsiveService {
       this.observer.subscribe(result => {
         for (const query of Object.keys(result.breakpoints)) {
           if (query == breakpoint) {
-            subscriber.next(result.breakpoints[query]);
+            subscriber.next();
           }
         }
       });
