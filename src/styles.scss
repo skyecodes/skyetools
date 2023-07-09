@@ -45,14 +45,10 @@ router-outlet + * {
   }
 }
 
-@mixin sized-icon($size) {
-  font-size: $size !important;
-  width: $size !important;
-  height: $size !important;
-}
-
 .icon-large {
-  @include sized-icon(64px);
+  font-size: 64px !important;
+  width: 64px !important;
+  height: 64px !important;
 }
 
 .file-over {
