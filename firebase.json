@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/skyetools-frontend",
+    "public": "dist/skyetools",
     "ignore": [
       "firebase.json",
       "**/.*",

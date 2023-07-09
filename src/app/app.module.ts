@@ -29,7 +29,6 @@ import {TvComponent} from './tv/tv.component';
 import {ConverterComponent} from './converter/converter.component';
 import {DropZoneDirective} from './common/drop-zone.directive';
 import {MatSelectModule} from "@angular/material/select";
-import {ProgressComponent} from './common/progress/progress.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +38,6 @@ import {ProgressComponent} from './common/progress/progress.component';
     TvComponent,
     ConverterComponent,
     DropZoneDirective,
-    ProgressComponent
   ],
   imports: [
     BrowserModule,

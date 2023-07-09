@@ -21,7 +21,7 @@ export const links: Link[] = [
     name: 'SkyeConverter',
     url: '/converter',
     icon: 'sync',
-    description: 'Convert between different file formats.'
+    description: 'Convert between different media file formats.'
   },
   {
     name: 'SkyeTV',

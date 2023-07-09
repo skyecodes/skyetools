@@ -113,6 +113,7 @@ export class DownloaderComponent {
         this.snackBar.open('A server error occurred.', 'CLOSE', {
           panelClass: 'snackbar-error'
         });
+        this.resetProgress();
       }
     });
   }

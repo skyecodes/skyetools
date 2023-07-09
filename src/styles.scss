@@ -30,6 +30,11 @@ router-outlet + * {
   width: calc(100% - 2rem);
 }
 
+.filler {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
 @media (max-width: 768px) {
   .mat-headline-2 {
     font-size: 40px;
