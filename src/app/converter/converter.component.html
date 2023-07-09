@@ -1,7 +1,9 @@
 <div class="app-content">
   <div class="filler"></div>
-  <span class="mat-headline-2 d-flex gap-2 align-items-center"><mat-icon
-    class="icon-large">sync</mat-icon>SkyeConverter</span>
+  <span class="mat-headline-2 d-flex gap-2 align-items-center">
+    <mat-icon class="icon-large">sync</mat-icon>
+    SkyeConverter
+  </span>
   <span class="mat-headline-5 text-center">Convert between different media file formats.</span>
   <form class="col-12 col-md-8 d-flex flex-column gap-2" ngForm>
     <mat-card class="converter-area justify-content-center">
@@ -37,15 +39,17 @@
           This field is required
         </mat-error>
       </mat-form-field>
+    </div>
+    <div class="d-flex justify-content-center">
       <a mat-fab extended type="submit" color="accent" (click)="process()"
-         [disabled]="!inputFile || format.value == '' || processing" class="mb-3">
+         [disabled]="!inputFile || format.value == '' || processing">
         <mat-icon>sync</mat-icon>
         CONVERT
       </a>
     </div>
   </form>
   <div class="filler">
-    <div *ngIf="processing" class="d-flex flex-row align-items-center justify-content-center gap-3">
+    <div *ngIf="processing" class="d-flex flex-row align-items-center justify-content-center gap-3 mt-4">
       <mat-spinner color="accent" diameter="32" [mode]="progressMode" [value]="progressValue"></mat-spinner>
       {{getProgressText()}}
     </div>

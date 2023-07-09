@@ -27,7 +27,7 @@ export const links: Link[] = [
     name: 'SkyeTV',
     url: '/tv',
     icon: 'live_tv',
-    description: 'Watch films and movies online (not made by me, only self-hosting).'
+    description: 'Watch movies and shows online (not made by me, only self-hosting).'
   },
 ]
 
