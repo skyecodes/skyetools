@@ -21,40 +21,11 @@
         Could not process URL.
       </mat-error>
     </mat-form-field>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Advanced options
-        </mat-panel-title>
-        <mat-panel-description>{{getAdvancedOptionsText()}}</mat-panel-description>
-      </mat-expansion-panel-header>
-      <div>
-        <div>
-          <mat-radio-group formControlName="type">
-            <mat-radio-button *ngFor="let item of typeValues | keyvalue" value="{{item.key}}">{{item.value}}</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <mat-divider class="d-md-inline"></mat-divider>
-        <div>
-          <mat-radio-group formControlName="quality">
-            <mat-radio-button *ngFor="let item of qualityValues | keyvalue" value="{{item.key}}">{{item.value}}</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <mat-divider class="d-md-inline"></mat-divider>
-        <div class="align-items-center">
-          <mat-radio-group formControlName="size">
-            <mat-radio-button *ngFor="let item of sizeValues | keyvalue" value="{{item.key}}">{{item.value}}</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <mat-divider class="d-md-inline"></mat-divider>
-        <div>
-          <mat-checkbox formControlName="preferFreeFormats">Prefer free formats</mat-checkbox>
-        </div>
-        <div>
-          <button mat-stroked-button type="button" class="mt-2" (click)="resetOptions()">Reset options</button>
-        </div>
-      </div>
-    </mat-expansion-panel>
+    <div class="d-flex justify-content-center">
+      <mat-checkbox formControlName="convertAudio" class="me-3">
+        Extract audio
+      </mat-checkbox>
+    </div>
     <div class="d-flex justify-content-center mt-4">
       <button mat-fab extended type="submit" color="accent" (click)="process()" [disabled]="processing"
               class="flex-grow-0">

@@ -8,22 +8,10 @@ import {CustomErrorStateMatcher} from "../common/utils";
 
 const urlReg = 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)';
 
-type DownloadType = 'all' | 'audio' | 'video';
-type DownloadQuality = 'best' | 'worst';
-type DownloadSize = '0' | '25' | '50' | '500';
-
 export interface DownloadForm {
   url: FormControl<string>
-  type: FormControl<DownloadType>
-  quality: FormControl<DownloadQuality>
-  size: FormControl<DownloadSize>
-  preferFreeFormats: FormControl<boolean>
+  convertAudio: FormControl<boolean>
 }
-
-const defaultType: DownloadType = 'all'
-const defaultQuality: DownloadQuality = 'best'
-const defaultSize: DownloadSize = '0'
-const defaultPreferFreeFormats: boolean = false
 
 @Component({
   selector: 'app-downloader',
@@ -34,64 +22,14 @@ export class DownloaderComponent {
   processing: boolean = false;
   form = new FormGroup(<DownloadForm>{
     url: new FormControl('', [Validators.required, Validators.pattern(urlReg)]),
-    type: new FormControl(defaultType),
-    quality: new FormControl(defaultQuality),
-    size: new FormControl(defaultSize),
-    preferFreeFormats: new FormControl(defaultPreferFreeFormats)
+    convertAudio: new FormControl(false),
   });
-
-  typeValues = {
-    'all': 'Audio + Video',
-    'audio': 'Audio only',
-    'video': 'Video only'
-  }
-
-  qualityValues = {
-    'best': 'Best quality',
-    'worst': 'Worst quality',
-  }
-
-  sizeValues = {
-    0: 'No size limit',
-    25: '25MB limit (Discord)',
-    50: '50MB limit (Discord Nitro Basic)',
-    500: '500MB limit (Discord Nitro)',
-  }
 
   matcher = new CustomErrorStateMatcher();
   progressMode: ProgressSpinnerMode = 'indeterminate';
   progressValue: number = 0;
 
   constructor(private downloaderService: DownloaderService, private storageService: StorageService, private snackBar: MatSnackBar) {
-  }
-
-  getAdvancedOptionsText() {
-    let str = '';
-    let separator = ', '
-    if (this.form.value.type != defaultType) {
-      str += this.typeValues[this.form.value.type!] + separator;
-    }
-    if (this.form.value.quality != defaultQuality) {
-      str += this.qualityValues[this.form.value.quality!] + separator;
-    }
-    if (this.form.value.size != defaultSize) {
-      str += this.sizeValues[this.form.value.size!] + separator;
-    }
-    if (this.form.value.preferFreeFormats != defaultPreferFreeFormats) {
-      str += 'Prefer free formats' + separator;
-    }
-    if (str == '') return 'Default options';
-    return str.substring(0, str.length - separator.length);
-  }
-
-  resetOptions() {
-    this.form.setValue({
-      url: this.form.value.url!,
-      type: defaultType,
-      quality: defaultQuality,
-      size: defaultSize,
-      preferFreeFormats: defaultPreferFreeFormats
-    });
   }
 
   getProgressText() {
@@ -107,7 +45,7 @@ export class DownloaderComponent {
   process() {
     if (this.form.invalid) return;
     this.processing = true;
-    this.downloaderService.process(this.form.value).subscribe({
+    this.downloaderService.process(this.form.value.url!, this.form.value.convertAudio!).subscribe({
       next: response => this.handleProgress(response),
       error: () => {
         this.snackBar.open('A server error occurred.', 'CLOSE', {

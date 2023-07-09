@@ -13,14 +13,10 @@ export class DownloaderService {
   constructor(private http: HttpClient, private zone: NgZone) {
   }
 
-  process(formData: any): Observable<string> {
-    let data = {
-      url: formData.url,
-      type: formData.type,
-      quality: formData.quality,
-      size: formData.size,
-      preferFreeFormats: formData.preferFreeFormats
-    };
+  process(url: string, audio: boolean): Observable<string> {
+    let data = new FormData();
+    data.append('url', url);
+    data.append('audio', audio ? 'true' : 'false');
     return this.http.post<string>(environment.apiUrl + '/downloader/process', data);
   }
 
