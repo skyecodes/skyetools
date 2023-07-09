@@ -3,7 +3,8 @@ import {MatDrawerMode, MatSidenav} from "@angular/material/sidenav";
 import {Subject, takeUntil} from "rxjs";
 import packageJson from '../../package.json';
 import {faGithub, faTwitter} from "@fortawesome/free-brands-svg-icons";
-import {ResponsiveService} from "./responsive.service";
+import {ResponsiveService} from "./common/responsive.service";
+import {links} from "./common/utils";
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ export class AppComponent implements OnDestroy {
   sidenavOpened!: boolean
   sidenavMode!: MatDrawerMode
   @ViewChild('sidenav') sidenav!: MatSidenav;
+  protected readonly links = links
 
   constructor(responsiveService: ResponsiveService) {
     responsiveService.isSmall
@@ -39,7 +41,7 @@ export class AppComponent implements OnDestroy {
   protected readonly faTwitter = faTwitter;
   protected readonly faGithub = faGithub;
 
-  closeIfSmall() {
+  closeSidenavIfSmall() {
     if (this.sidenavMode == 'over') this.sidenav.close()
   }
 }

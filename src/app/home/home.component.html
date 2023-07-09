@@ -1,11 +1,14 @@
 <div class="app-content">
-  <span class="mat-headline-2">SkyeTools</span>
-  <span class="mat-headline-5">A collection of useful tools made by myself.</span>
+  <span class="mat-headline-2 d-flex gap-2 align-items-center">
+    <mat-icon class="icon-large">construction</mat-icon>
+    SkyeTools
+  </span>
+  <span class="mat-headline-5 text-center">A collection of useful tools made by myself.</span>
   <mat-nav-list>
-    <mat-list-item routerLink="/downloader" [lines]="itemLines">
-      <mat-icon matListItemIcon>download</mat-icon>
-      <span matListItemTitle>SkyeDownloader</span>
-      <span>Download media from Twitter, Youtube, Reddit and many other websites.</span>
+    <mat-list-item *ngFor="let link of links" [routerLink]="link.url" [lines]="itemLines">
+      <mat-icon matListItemIcon>{{link.icon}}</mat-icon>
+      <span matListItemTitle>{{link.name}}</span>
+      <span>{{link.description}}</span>
     </mat-list-item>
   </mat-nav-list>
 </div>

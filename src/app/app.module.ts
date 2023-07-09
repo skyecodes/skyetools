@@ -25,12 +25,19 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {TvComponent} from './tv/tv.component';
+import {ConverterComponent} from './converter/converter.component';
+import {DropZoneDirective} from './common/drop-zone.directive';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    DownloaderComponent
+    DownloaderComponent,
+    TvComponent,
+    ConverterComponent,
+    DropZoneDirective,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +61,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     MatRadioModule,
     MatSliderModule,
     MatProgressBarModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

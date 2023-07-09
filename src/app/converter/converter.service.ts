@@ -1,27 +1,28 @@
 import {Injectable, NgZone} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
 import {observeEventSource, ProgressMessage} from "../common/utils";
 
 @Injectable({
   providedIn: 'root'
 })
-export class DownloaderService {
+export class ConverterService {
+
   source: EventSource | undefined
 
   constructor(private http: HttpClient, private zone: NgZone) {
   }
 
-  process(url: string, audio: boolean): Observable<string> {
+  convert(inputFile: File, format: string): Observable<string> {
     let data = new FormData();
-    data.append('url', url);
-    data.append('audio', audio ? 'true' : 'false');
-    return this.http.post<string>(environment.apiUrl + '/downloader/process', data);
+    data.append('file', inputFile);
+    data.append('ext', format);
+    return this.http.post<string>(environment.apiUrl + '/converter/process', data);
   }
 
   getProgress(processId: string): Observable<ProgressMessage> {
-    this.source = new EventSource(environment.apiUrl + '/downloader/' + processId + '/progress');
+    this.source = new EventSource(environment.apiUrl + '/converter/' + processId + '/progress');
     return observeEventSource(this.source, this.zone);
   }
 

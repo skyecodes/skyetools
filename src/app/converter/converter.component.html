@@ -1,0 +1,57 @@
+<div class="app-content">
+  <div class="filler"></div>
+  <span class="mat-headline-2 d-flex gap-2 align-items-center">
+    <mat-icon class="icon-large">sync</mat-icon>
+    SkyeConverter
+  </span>
+  <span class="mat-headline-5 text-center">Convert between different media file formats.</span>
+  <form class="col-12 col-md-8 d-flex flex-column gap-2" ngForm>
+    <mat-card class="converter-area justify-content-center">
+      <div appDropZone (fileDropped)="onFileAdded($event)" *ngIf="!inputFile"
+           class="d-flex flex-column gap-2 align-items-center justify-content-center">
+        <mat-icon>upload_file</mat-icon>
+        <span>Drag and drop file here</span>
+        <span>or</span>
+        <a mat-stroked-button color="accent" (click)="fileInput.click()">Browse for file</a>
+      </div>
+      <div *ngIf="inputFile" class="d-flex flex-column gap-2 align-items-center justify-content-center">
+        <mat-icon *ngIf="inputFileType == 'video'">movie</mat-icon>
+        <mat-icon *ngIf="inputFileType == 'audio'">music_note</mat-icon>
+        <mat-icon *ngIf="inputFileType == 'image'">image</mat-icon>
+        <span>File: {{inputFile.name}}</span>
+        <span>Type: {{inputFileType}}</span>
+        <a mat-stroked-button color="warn" (click)="resetFile()">Remove file</a>
+      </div>
+    </mat-card>
+    <input type="file" class="d-none" #fileInput (change)="onFileAdded(fileInput.files)">
+    <div class="d-flex flex-row justify-content-center align-items-center gap-4 mt-4">
+      <mat-checkbox [formControl]="convertAudio" (change)="format.setValue('')" class="mb-3">
+        Extract audio
+      </mat-checkbox>
+      <mat-form-field color="accent">
+        <mat-label>Format</mat-label>
+        <mat-select [formControl]="format" [errorStateMatcher]="matcher">
+          <mat-option *ngFor="let format of formats[getConvertedFileType()]"
+                      [disabled]="inputFile!.name.endsWith(format)"
+                      [value]="format">{{format.toUpperCase()}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="format.hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="d-flex justify-content-center">
+      <a mat-fab extended type="submit" color="accent" (click)="process()"
+         [disabled]="!inputFile || format.value == '' || processing">
+        <mat-icon>sync</mat-icon>
+        CONVERT
+      </a>
+    </div>
+  </form>
+  <div class="filler">
+    <div *ngIf="processing" class="d-flex flex-row align-items-center justify-content-center gap-3 mt-4">
+      <mat-spinner color="accent" diameter="32" [mode]="progressMode" [value]="progressValue"></mat-spinner>
+      {{getProgressText()}}
+    </div>
+  </div>
+</div>
