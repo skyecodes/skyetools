@@ -1,5 +1,4 @@
 @use 'sass:map';
-@use '@angular/material' as mat;
 
 #root {
   display: flex;
@@ -10,18 +9,28 @@ mat-sidenav-container {
   flex-grow: 1;
 }
 
-.link-active {
-  background-color: rgba(map-get(mat.$purple-palette, 700), 0.3);
-}
-
-.link-active span {
-  color: map-get(mat.$purple-palette, 100);
-}
-
 mat-list-item.link-active:focus::before {
   background-color: inherit !important;
 }
 
 mat-nav-list {
   padding: 0;
+}
+
+@mixin theme-light($primary) {
+  .link-active span {
+    color: map-get($primary, 800);
+  }
+}
+
+@mixin theme-dark($primary) {
+  .link-active span {
+    color: map-get($primary, 100);
+  }
+}
+
+@mixin theme($primary) {
+  .link-active {
+    background-color: rgba(map-get($primary, 700), 0.3) !important;
+  }
 }
