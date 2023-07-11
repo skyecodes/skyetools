@@ -32,6 +32,7 @@ export class ConverterComponent {
   matcher = new CustomErrorStateMatcher();
   progressMode: ProgressSpinnerMode = 'indeterminate';
   progressValue: number = 0;
+  isCompleted: boolean = false;
 
   constructor(private converterService: ConverterService, private storageService: StorageService, private snackBar: MatSnackBar) {
     this.resetFile();
@@ -79,10 +80,10 @@ export class ConverterComponent {
   }
 
   getProgressText() {
-    if (this.progressValue == 0) {
-      return 'Preparing...';
-    } else if (this.progressValue == 100) {
+    if (this.isCompleted) {
       return 'Finalizing...';
+    } else if (this.progressValue == 0) {
+      return 'Preparing...';
     } else {
       return 'Processing ' + this.progressValue.toFixed() + '%';
     }
@@ -104,13 +105,18 @@ export class ConverterComponent {
   private handleProgress(processId: string) {
     this.converterService.getProgress(processId).subscribe({
       next: response => {
-        console.log(response);
-        if (!response.fileId) {
+        this.isCompleted = response.isCompleted;
+        if (!this.isCompleted) {
           this.progressMode = 'determinate';
           this.progressValue = response.progress;
         } else {
-          this.converterService.closeEventSource();
-          this.download(response.fileId);
+          this.progressMode = 'indeterminate';
+          this.progressValue = 0;
+          if (!!response.fileId) {
+            this.converterService.closeEventSource();
+            this.storageService.download(response.fileId);
+            this.resetProgress();
+          }
         }
       },
       error: err => {
@@ -127,27 +133,12 @@ export class ConverterComponent {
         this.resetProgress();
       }
     })
-
-  }
-
-  private download(fileId: string) {
-    this.storageService.download(fileId).subscribe({
-      next: () => {
-        this.resetProgress();
-      },
-      error: () => {
-        this.snackBar.open('An error occurred while downloading the file.', 'CLOSE', {
-          panelClass: 'snackbar-error'
-        });
-        this.resetProgress();
-      }
-    });
   }
 
   private resetProgress() {
     this.processing = false;
     this.progressMode = 'indeterminate';
     this.progressValue = 0;
-    //this.format.markAsPristine();
+    this.isCompleted = false;
   }
 }

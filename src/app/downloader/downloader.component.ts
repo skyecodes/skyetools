@@ -28,15 +28,16 @@ export class DownloaderComponent {
   matcher = new CustomErrorStateMatcher();
   progressMode: ProgressSpinnerMode = 'indeterminate';
   progressValue: number = 0;
+  isCompleted: boolean = false;
 
   constructor(private downloaderService: DownloaderService, private storageService: StorageService, private snackBar: MatSnackBar) {
   }
 
   getProgressText() {
-    if (this.progressValue == 0) {
-      return 'Preparing...';
-    } else if (this.progressValue == 100) {
+    if (this.isCompleted) {
       return 'Finalizing...';
+    } else if (this.progressValue == 0) {
+      return 'Preparing...';
     } else {
       return 'Processing ' + this.progressValue.toFixed() + '%';
     }
@@ -59,13 +60,18 @@ export class DownloaderComponent {
   private handleProgress(processId: string) {
     this.downloaderService.getProgress(processId).subscribe({
       next: response => {
-        console.log(response);
-        if (!response.fileId) {
+        this.isCompleted = response.isCompleted;
+        if (!this.isCompleted) {
           this.progressMode = 'determinate';
           this.progressValue = response.progress;
         } else {
-          this.downloaderService.closeEventSource();
-          this.download(response.fileId);
+          this.progressMode = 'indeterminate';
+          this.progressValue = 0;
+          if (!!response.fileId) {
+            this.downloaderService.closeEventSource();
+            this.storageService.download(response.fileId);
+            this.resetProgress();
+          }
         }
       },
       error: err => {
@@ -86,24 +92,11 @@ export class DownloaderComponent {
 
   }
 
-  private download(fileId: string) {
-    this.storageService.download(fileId).subscribe({
-      next: () => {
-        this.resetProgress();
-      },
-      error: () => {
-        this.snackBar.open('An error occurred while downloading the file.', 'CLOSE', {
-          panelClass: 'snackbar-error'
-        });
-        this.resetProgress();
-      }
-    });
-  }
-
   private resetProgress() {
     this.processing = false;
     this.progressMode = 'indeterminate';
     this.progressValue = 0;
+    this.isCompleted = false;
     this.form.markAsPristine();
   }
 }
