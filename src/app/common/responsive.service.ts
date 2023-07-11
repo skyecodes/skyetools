@@ -15,11 +15,7 @@ export class ResponsiveService {
     this.observer = this.breakpointObserver.observe([breakpoint])
     this.isSmall = new Observable<boolean>(subscriber => {
       this.observer.subscribe(result => {
-        for (const query of Object.keys(result.breakpoints)) {
-          if (query == breakpoint) {
-            subscriber.next();
-          }
-        }
+        subscriber.next(result.matches);
       });
     });
   }
