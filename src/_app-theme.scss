@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+@use './app/app.component' as app-component;
+
+@use 'sass:map';
+
+@mixin theme($theme) {
+  $primary: map.get($theme, primary);
+  $accent: map.get($theme, accent);
+  $warn: map.get($theme, warn);
+  $background: map.get($theme, background);
+  $foreground: map.get($theme, foreground);
+
+  @include app-component.theme($primary);
+}
+
+@mixin theme-light($theme) {
+  $primary: map.get($theme, primary);
+
+  @include app-component.theme-light($primary);
+}
+
+@mixin theme-dark($theme) {
+  $primary: map.get($theme, primary);
+
+  @include app-component.theme-dark($primary);
+}

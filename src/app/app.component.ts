@@ -1,25 +1,28 @@
-import {Component, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDrawerMode, MatSidenav} from "@angular/material/sidenav";
 import {Subject, takeUntil} from "rxjs";
 import packageJson from '../../package.json';
 import {faGithub, faTwitter} from "@fortawesome/free-brands-svg-icons";
 import {ResponsiveService} from "./common/responsive.service";
-import {links} from "./common/utils";
+import {links, themes} from "./common/utils";
+import {ThemeService} from "./common/theme.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   destroyed = new Subject<void>();
   sidenavOpened!: boolean
   sidenavMode!: MatDrawerMode
   @ViewChild('sidenav') sidenav!: MatSidenav;
+  currentTheme!: string;
   protected readonly links = links
+  protected readonly themes = themes;
 
-  constructor(responsiveService: ResponsiveService) {
-    responsiveService.isSmall
+  constructor(private responsiveService: ResponsiveService, private themeService: ThemeService) {
+    this.responsiveService.isSmall
       .pipe(takeUntil(this.destroyed))
       .subscribe(isSmall => {
         if (isSmall) {
@@ -30,6 +33,11 @@ export class AppComponent implements OnDestroy {
           this.sidenavMode = 'side';
         }
       });
+    this.currentTheme = localStorage.getItem('theme') || 'purple-green'
+    this.themeService.setTheme(this.currentTheme);
+  }
+
+  ngOnInit() {
   }
 
   ngOnDestroy() {
@@ -43,5 +51,11 @@ export class AppComponent implements OnDestroy {
 
   closeSidenavIfSmall() {
     if (this.sidenavMode == 'over') this.sidenav.close()
+  }
+
+  changeTheme(theme: string) {
+    this.themeService.setTheme(theme);
+    this.currentTheme = theme;
+    localStorage.setItem('theme', theme);
   }
 }

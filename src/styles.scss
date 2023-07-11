@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+@use './app-theme';
+
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
@@ -9,9 +12,32 @@
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/utilities/api";
 
+html, body, .full-height {
+  height: 100%;
+}
 
-html, body, .full-height { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Include material core styles.
+@include mat.core();
+@include mat.typography-hierarchy(mat.define-typography-config());
+
+$primary: mat.define-palette(mat.$purple-palette);
+$accent: mat.define-palette(mat.$green-palette, A200, A100, A400);
+$theme: mat.define-dark-theme((
+  color: (
+    primary: $primary,
+    accent: $accent
+  ),
+  typography: mat.define-typography-config(),
+));
+
+@include mat.all-component-themes($theme);
+@include app-theme.theme($theme);
+@include app-theme.theme-dark($theme);
 
 .snackbar-error {
   --mdc-snackbar-supporting-text-color: white !important;
