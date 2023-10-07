@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDrawerMode, MatSidenav} from "@angular/material/sidenav";
 import {Subject, takeUntil} from "rxjs";
 import packageJson from '../../package.json';
-import {faGithub, faTwitter} from "@fortawesome/free-brands-svg-icons";
+import {faGithub} from "@fortawesome/free-brands-svg-icons";
 import {ResponsiveService} from "./common/responsive.service";
 import {links, themes} from "./common/utils";
 import {ThemeService} from "./common/theme.service";
@@ -46,7 +46,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   protected readonly packageJson = packageJson;
-  protected readonly faTwitter = faTwitter;
   protected readonly faGithub = faGithub;
 
   closeSidenavIfSmall() {
